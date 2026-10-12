@@ -13,15 +13,18 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60   # 26 casks
     steps:
-      - name: Run the live bootstrap
-        run: curl -fsSL https://lawrence-berry.github.io/setup | sh
+      - uses: actions/checkout@v4
+      # This checkout's setup, so PRs test their own change (Pages serves main).
+      - name: Run the bootstrap
+        run: sh setup
       - name: Check each repo left its hook
         run: |
           fail=0
+          case "$SHELL" in *zsh) rc=~/.zshrc ;; *) rc=~/.bashrc ;; esac
           check() { if eval "$2"; then echo "ok  $1"; else echo "FAIL $1"; fail=1; fi; }
           check setup-mac     'command -v /opt/homebrew/bin/brew >/dev/null && grep -qs "brew shellenv" ~/.zprofile'
-          check setup-iterm   '[ "$(defaults read com.googlecode.iterm2 HotkeyCode)" = 42 ] && cmp -s ~/Projects/util/setup-iterm/karabiner.json ~/.config/karabiner/karabiner.json && grep -q "# setup-iterm$" ~/.zshrc'
-          check setup-shell   'grep -q "# setup-shell$" ~/.zshrc'
+          check setup-iterm   '[ "$(defaults read com.googlecode.iterm2 HotkeyCode)" = 42 ] && cmp -s ~/Projects/util/setup-iterm/karabiner.json ~/.config/karabiner/karabiner.json && grep -q "# setup-iterm$" $rc'
+          check setup-shell   'grep -q "# setup-shell$" $rc'
           check setup-git     'git config --global --get-all include.path | grep -q "setup-git/gitconfig$"'
           check setup-ssh     'grep -q "setup-ssh/config$" ~/.ssh/config'
           check setup-ruby    '[ -L ~/.irbrc ]'
