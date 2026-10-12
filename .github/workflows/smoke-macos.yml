@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 60   # 26 casks
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # This checkout's setup, so PRs test their own change (Pages serves main).
       - name: Run the bootstrap
         run: sh setup
