@@ -1,0 +1,51 @@
+#!/bin/sh
+# One-line bootstrap for the setup-* dotfiles family.
+#
+#   (curl -fsSL https://lawrence-berry.github.io/setup || wget -qO- https://lawrence-berry.github.io/setup) | sh
+#
+# Installs git if missing, clones (or updates) each setup-* repo into
+# ~/Projects/util, then runs each repo's install.sh. Safe to re-run.
+set -eu
+
+base="https://github.com/lawrence-berry"
+dest="$HOME/Projects/util"
+
+# Cross-platform repos, and the macOS-only ones (brew, iTerm, Karabiner).
+common="setup-shell setup-git setup-ssh setup-ruby setup-secrets"
+mac_only="setup-mac setup-iterm"
+
+# git is needed to clone. Install it if missing.
+if ! command -v git >/dev/null 2>&1; then
+  case "$(uname -s)" in
+    Darwin)
+      echo "Installing the Xcode command line tools (for git)..."
+      xcode-select --install || true
+      echo "Finish that install when it's done, then re-run this." >&2
+      exit 1 ;;
+    Linux) sudo apt-get update && sudo apt-get install -y git ;;
+    *) echo "Please install git, then re-run this." >&2; exit 1 ;;
+  esac
+fi
+
+# macOS gets the mac-only repos first, so brew and the CLI tools exist
+# before the shared repos install.
+if [ "$(uname -s)" = Darwin ]; then repos="$mac_only $common"; else repos="$common"; fi
+
+mkdir -p "$dest"
+for r in $repos; do
+  d="$dest/$r"
+  if [ -d "$d/.git" ]; then
+    echo "== updating $r =="
+    git -C "$d" pull --ff-only
+  else
+    echo "== cloning $r =="
+    git clone "$base/$r.git" "$d"
+  fi
+done
+
+for r in $repos; do
+  echo "== installing $r =="
+  ( cd "$dest/$r" && ./install.sh )
+done
+
+echo "Done. Open a new terminal."
