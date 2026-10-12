@@ -45,7 +45,8 @@ done
 
 for r in $repos; do
   echo "== installing $r =="
-  ( cd "$dest/$r" && ./install.sh )
+  # sh, not ./, so a missing +x bit on a repo's install.sh doesn't stop us.
+  ( cd "$dest/$r" && sh install.sh )
 done
 
 echo "Done. Open a new terminal."
