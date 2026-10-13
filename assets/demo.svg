@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-label="Terminal: the one-line installer runs, clones the setup repos, installs each one, and prints Done">
+  <style>
+    text { font-family: SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; font-size: 17px; white-space: pre }
+    @keyframes l0 { 0%, -0.01% { opacity: 0 } 0.00%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l0 { opacity: 0; animation: l0 12.0s linear infinite }
+    @keyframes l1 { 0%, 9.99% { opacity: 0 } 10.00%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l1 { opacity: 0; animation: l1 12.0s linear infinite }
+    @keyframes l2 { 0%, 18.32% { opacity: 0 } 18.33%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l2 { opacity: 0; animation: l2 12.0s linear infinite }
+    @keyframes l3 { 0%, 24.99% { opacity: 0 } 25.00%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l3 { opacity: 0; animation: l3 12.0s linear infinite }
+    @keyframes l4 { 0%, 31.66% { opacity: 0 } 31.67%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l4 { opacity: 0; animation: l4 12.0s linear infinite }
+    @keyframes l5 { 0%, 39.99% { opacity: 0 } 40.00%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l5 { opacity: 0; animation: l5 12.0s linear infinite }
+    @keyframes l6 { 0%, 48.32% { opacity: 0 } 48.33%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l6 { opacity: 0; animation: l6 12.0s linear infinite }
+    @keyframes l7 { 0%, 54.99% { opacity: 0 } 55.00%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l7 { opacity: 0; animation: l7 12.0s linear infinite }
+    @keyframes l8 { 0%, 61.66% { opacity: 0 } 61.67%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l8 { opacity: 0; animation: l8 12.0s linear infinite }
+    @keyframes l9 { 0%, 71.66% { opacity: 0 } 71.67%, 94.00% { opacity: 1 } 94.01%, 100% { opacity: 0 } }
+    .l9 { opacity: 0; animation: l9 12.0s linear infinite }
+  </style>
+  <rect x="0" y="0" width="720" height="360" rx="14" fill="#0D1117"/>
+  <rect x="0" y="0" width="720" height="44" rx="14" fill="#161B22"/>
+  <rect x="0" y="30" width="720" height="14" fill="#161B22"/>
+  <circle cx="26" cy="22" r="7" fill="#FF5F56"/>
+  <circle cx="48" cy="22" r="7" fill="#FFBD2E"/>
+  <circle cx="70" cy="22" r="7" fill="#27C93F"/>
+  <text x="360" y="27" text-anchor="middle" fill="#8B949E" style="font-size:14px">~ — sh</text>
+  <text class="l0" x="28" y="78"><tspan fill="#7EE787">$ </tspan><tspan fill="#E6EDF3">curl -fsSL https://lawrence-berry.github.io/setup | sh</tspan></text>
+  <text class="l1" x="28" y="104"><tspan fill="#8B949E">macOS detected: mac-only repos first, then the shared ones</tspan></text>
+  <text class="l2" x="28" y="130"><tspan fill="#58A6FF">== cloning setup-mac ==</tspan></text>
+  <text class="l3" x="28" y="156"><tspan fill="#58A6FF">== cloning setup-shell ==</tspan></text>
+  <text class="l4" x="28" y="182"><tspan fill="#58A6FF">== cloning setup-git ==</tspan></text>
+  <text class="l5" x="28" y="208"><tspan fill="#F6B40E">== installing setup-mac ==</tspan></text>
+  <text class="l6" x="28" y="234"><tspan fill="#F6B40E">== installing setup-iterm ==</tspan></text>
+  <text class="l7" x="28" y="260"><tspan fill="#F6B40E">== installing setup-shell ==</tspan></text>
+  <text class="l8" x="28" y="286"><tspan fill="#F6B40E">== installing setup-git ==</tspan></text>
+  <text class="l9" x="28" y="312"><tspan fill="#7EE787">Done. Open a new terminal.</tspan></text>
+</svg>
