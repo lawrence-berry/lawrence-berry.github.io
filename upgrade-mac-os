@@ -1,0 +1,52 @@
+#!/bin/sh
+# Post-macOS-upgrade checklist. Run after the OS upgrade, before `setup`.
+#
+#   curl -fsSL https://lawrence-berry.github.io/upgrade-mac-os | sh
+#
+# Updates the Xcode command line tools and Homebrew, checks GitHub access,
+# and lists what needs doing by hand. Safe to re-run; each step carries on if
+# it fails, and the failures are listed at the end.
+set -u
+
+[ "$(uname -s)" = Darwin ] || { echo "macOS only." >&2; exit 1; }
+
+failed=""
+step() { echo; echo "== $1 =="; }
+fail() { echo "!! $1" >&2; failed="$failed\n  - $1"; }
+
+step "Xcode command line tools"
+# The upgrade leaves the old tools in place, so `setup` never asks for new ones.
+label=$(softwareupdate --list 2>&1 | sed -n 's/^\* Label: \(Command Line Tools.*\)/\1/p' | tail -1)
+if [ -n "$label" ]; then
+  echo "Installing: $label"
+  sudo softwareupdate --install "$label" || fail "command line tools update"
+elif ! xcode-select -p >/dev/null 2>&1; then
+  xcode-select --install || true
+  fail "command line tools missing; finish the install dialog, then re-run"
+else
+  echo "Up to date."
+fi
+
+step "Homebrew"
+brew update && brew upgrade --greedy || fail "brew update/upgrade"
+brew doctor || fail "brew doctor (see warnings above)"
+
+step "GitHub access"
+# ssh -T exits 1 on a successful GitHub login, so match its message instead.
+ssh -T -o BatchMode=yes git@github.com 2>&1 | grep -q "successfully authenticated" \
+  || fail "ssh to GitHub (keys or keychain)"
+if command -v gh >/dev/null 2>&1; then gh auth status || fail "gh auth"; fi
+
+step "Docker"
+if [ -d /Applications/Docker.app ]; then open -a Docker; echo "Opened Docker Desktop; accept any prompts."; fi
+
+step "By hand"
+cat <<'EOF'
+  - System Settings > Privacy & Security: re-grant iTerm and Karabiner
+    (Accessibility, Input Monitoring, Full Disk Access) if they stopped working.
+  - Same place, App Management: turn it on for iTerm (then restart iTerm), or
+    brew can't touch apps in /Applications ("chgrp: Operation not permitted").
+EOF
+
+if [ -n "$failed" ]; then printf "\nNeeds attention:%b\n" "$failed" >&2; exit 1; fi
+echo; echo "Done."
