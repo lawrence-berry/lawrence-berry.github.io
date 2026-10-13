@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="setup: a terminal window with a prompt and a circular re-run arrow">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3FB7A6"/>
+      <stop offset="1" stop-color="#2A7F9E"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="28" width="224" height="192" rx="34" fill="url(#body)"/>
+  <circle cx="52" cy="62" r="7" fill="#FFFFFF" fill-opacity=".85"/>
+  <circle cx="76" cy="62" r="7" fill="#FFFFFF" fill-opacity=".6"/>
+  <circle cx="100" cy="62" r="7" fill="#FFFFFF" fill-opacity=".4"/>
+  <polyline points="52,112 92,142 52,172" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="108" y="160" width="64" height="18" rx="5" fill="#FFFFFF"/>
+  <!-- safe to re-run: the circular arrow -->
+  <circle cx="206" cy="206" r="36" fill="#F6B40E" stroke="#FFFFFF" stroke-width="6"/>
+  <path d="M206 188 A18 18 0 1 1 188 206" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  <polygon points="176,200 200,200 188,216" fill="#FFFFFF"/>
+</svg>
