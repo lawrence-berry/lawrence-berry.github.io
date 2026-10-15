@@ -34,6 +34,8 @@ macOS has no `wget` and a fresh Ubuntu may have no `curl`, so the `||` covers bo
 
 Open a new terminal when it finishes.
 
+**Shortcut on a Mac:** in System Settings > Keyboard > Text Replacements, add `bootstrapit` as the shortcut and the one-liner above as the phrase. Then typing `bootstrapit` in any app, Terminal included, expands to the full command. iCloud syncs text replacements to your other Macs once you're signed in, but not onto a blank Mac, so on the first one you still paste the line by hand.
+
 ## What you get
 
 | Repo | What it sets up | 🍎 macOS | 🐧 Linux |
