@@ -34,6 +34,17 @@ macOS has no `wget` and a fresh Ubuntu may have no `curl`, so the `||` covers bo
 
 Open a new terminal when it finishes.
 
+### Install only some packages
+
+Package names after `sh -s --` limit the run to those repos. The `setup-` prefix is optional, any number of names can be given, and the repos always install in the order of the table below.
+
+```sh
+curl -fsSL https://lawrence-berry.github.io/setup | sh -s -- mac iterm
+curl -fsSL https://lawrence-berry.github.io/setup | sh -s -- shell git
+```
+
+An unknown name, or a macOS-only one on Linux, stops the run before anything is cloned and lists the available packages.
+
 ## What you get
 
 | Repo | What it sets up | 🍎 macOS | 🐧 Linux |

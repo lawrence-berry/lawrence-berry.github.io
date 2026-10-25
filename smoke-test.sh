@@ -22,6 +22,11 @@ docker run --rm "ubuntu:24.04" bash -c '
   grep -q "setup-ssh/config$" ~/.ssh/config                           && echo "ok  setup-ssh include"       || { echo "FAIL setup-ssh";    fail=1; }
   [ -L ~/.irbrc ]                                                     && echo "ok  setup-ruby symlink"      || { echo "FAIL setup-ruby";   fail=1; }
   [ -f ~/.secrets/secrets.sh ]                                        && echo "ok  setup-secrets file"      || { echo "FAIL setup-secrets"; fail=1; }
+  # Named packages install only those, and an unknown name stops the run.
+  rm -rf ~/Projects/util ~/.secrets
+  curl -fsSL '"$url"' | sh -s -- git ssh
+  [ -d ~/Projects/util/setup-git ] && [ ! -d ~/Projects/util/setup-ruby ]  && echo "ok  package args" || { echo "FAIL package args"; fail=1; }
+  curl -fsSL '"$url"' | sh -s -- nope 2>/dev/null                     && { echo "FAIL unknown package"; fail=1; } || echo "ok  unknown package stops"
   exit $fail
 '
 echo "smoke test passed"

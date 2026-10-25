@@ -5,6 +5,10 @@
 #
 # Installs git if missing, clones (or updates) each setup-* repo into
 # ~/Projects/util, then runs each repo's install.sh. Safe to re-run.
+#
+# Name packages to install only those, e.g. mac and iterm (setup-mac works too):
+#
+#   curl -fsSL https://lawrence-berry.github.io/setup | sh -s -- mac iterm
 set -eu
 
 base="https://github.com/lawrence-berry"
@@ -13,6 +17,28 @@ dest="$HOME/Projects/util"
 # Cross-platform repos, and the macOS-only ones (brew, iTerm, Karabiner).
 common="setup-shell setup-git setup-ssh setup-ruby setup-secrets"
 mac_only="setup-mac setup-iterm"
+
+# macOS gets the mac-only repos first, so brew and the CLI tools exist
+# before the shared repos install.
+if [ "$(uname -s)" = Darwin ]; then repos="$mac_only $common"; else repos="$common"; fi
+
+# Package names given as arguments limit the run to those repos, in the order
+# above. No arguments installs everything.
+if [ $# -gt 0 ]; then
+  picked=""
+  for a in "$@"; do
+    n="setup-${a#setup-}"
+    case " $repos " in
+      *" $n "*) picked="$picked $n" ;;
+      *) echo "Unknown package '$a'. Available:$repos" >&2; exit 1 ;;
+    esac
+  done
+  sel=""
+  for r in $repos; do
+    case " $picked " in *" $r "*) sel="$sel $r" ;; esac
+  done
+  repos="$sel"
+fi
 
 # git is needed to clone. Install it if missing.
 if ! command -v git >/dev/null 2>&1; then
@@ -26,10 +52,6 @@ if ! command -v git >/dev/null 2>&1; then
     *) echo "Please install git, then re-run this." >&2; exit 1 ;;
   esac
 fi
-
-# macOS gets the mac-only repos first, so brew and the CLI tools exist
-# before the shared repos install.
-if [ "$(uname -s)" = Darwin ]; then repos="$mac_only $common"; else repos="$common"; fi
 
 mkdir -p "$dest"
 for r in $repos; do
